@@ -20,9 +20,8 @@ import java.util.Random;
 
 
 public class GameView
-        extends SurfaceView  implements Droid.Callback,
-        SurfaceHolder.Callback
-{
+        extends SurfaceView implements Droid.Callback,
+        SurfaceHolder.Callback {
 
     private static final int START_GROUND_HEIGHT = 50;
     private static final int GROUND_MOVE_TO_LEFT = 10;
@@ -53,13 +52,12 @@ public class GameView
 
     private final Random rand = new Random();
 
-
+    private GameActivity gameActivity;
+    private Paint paint = new Paint();
 
     public interface Callback {
         public void onGameOver();
     }
-
-
 
 
     private Callback callback;
@@ -69,44 +67,34 @@ public class GameView
     }
 
 
-
     private final Handler handler;
 
     private boolean isGameOver;
 
-    public GameView(Context context) {
+    public GameView(Context context, GameActivity gameActivity) {
         super(context);
 
         handler = new Handler();
+        getHolder().addCallback(this);
 
-     getHolder().addCallback(this);
+        this.gameActivity = gameActivity;
     }
 
-    public static Point getDisplaySize(Activity activity){
+    /*public static Point getDisplaySize(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point point = new Point();
         display.getSize(point);
         return point;
-    }
+    }*/
 
 
-
-
-    public void drawBG(Canvas canvas,Bitmap bm){
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
+    public void drawBG(Canvas canvas, Bitmap bm) {
         boolean u = true;
 
-        Paint paint = new Paint();
+        canvas.drawColor(Color.WHITE);
 
-            canvas.drawColor(Color.WHITE);
-            //  Canvas canvas1 = holder.lockCanvas();
-
-                    canvas.drawBitmap(bm, 0, 0, paint);
-            u=false;
-
-
-
+        canvas.drawBitmap(bm, 0, 0, paint);
+        u = false;
     }
 
     public void drawGame(Canvas canvas) {
@@ -114,7 +102,6 @@ public class GameView
         int height = canvas.getHeight();
 
 
-     //   canvas.drawColor(Color.WHITE);
         if (droid == null) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.uma3);
             droid = new Droid(bitmap, 0, 0, this);
@@ -163,6 +150,12 @@ public class GameView
         droid.move();
 
         droid.draw(canvas);
+
+        paint.setColor(Color.WHITE);
+        String sc = "  " + String.valueOf(droid.distance) + " m";
+        paint.setTextSize(100);
+        canvas.drawText(sc, 0, paint.getTextSize(), paint);
+
     }
 
     @Override
@@ -200,7 +193,11 @@ public class GameView
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                touchDownStartTime = System.currentTimeMillis();
+                if (gameActivity.getIsDead()) {
+                    gameActivity.ToTitle();
+                } else {
+                    touchDownStartTime = System.currentTimeMillis();
+                }
                 return true;
             case MotionEvent.ACTION_UP:
                 jumpDroid();
@@ -225,9 +222,6 @@ public class GameView
     }
 
 
-
-
-
     private void gameOver() {
         if (isGameOver) {
             return;
@@ -237,7 +231,7 @@ public class GameView
 
         droid.shutdown();
 
-   handler.post(new Runnable() {
+        handler.post(new Runnable() {
             @Override
             public void run() {
                 callback.onGameOver();
@@ -246,27 +240,35 @@ public class GameView
 
     }
 
+    /*public int getScore() {
+        return droid.distance;
+    }*/
+
+    public void ResetScore(){
+        droid.distance = 0;
+    }
+
     private class DrawThread extends Thread {
         boolean isFinished;
 
         @Override
         public void run() {
-         boolean v = true;
+            boolean v = true;
             SurfaceHolder holder = getHolder();
 
             Bitmap robot;
 
-            robot = BitmapFactory.decodeResource(getResources(), R.drawable.nangoku);
+            robot = BitmapFactory.decodeResource(getResources(), R.drawable.nangoku2);
 
 
             while (!isFinished) {
-                Canvas  canvas = holder.lockCanvas();
+                Canvas canvas = holder.lockCanvas();
                 if (canvas != null) {
 
-                //    if (v){
-                        drawBG(canvas,robot);
-                  //      v = false;
-                 //   }
+                    //    if (v){
+                    drawBG(canvas, robot);
+                    //      v = false;
+                    //   }
                     drawGame(canvas);
                     holder.unlockCanvasAndPost(canvas);
                 }

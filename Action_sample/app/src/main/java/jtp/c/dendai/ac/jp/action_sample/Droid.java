@@ -24,9 +24,19 @@ public class Droid {
     private static final int BLOCK_SIZE = 230;
 
     private static final Rect BITMAP_SRC_JUMPING = new Rect(
-            BLOCK_SIZE , 0,BLOCK_SIZE * 2 , BLOCK_SIZE);
+            BLOCK_SIZE, 0, BLOCK_SIZE * 2, BLOCK_SIZE);
     private static final Rect BITMAP_SRC_RUNNING = new Rect(
-            0, 0, BLOCK_SIZE , BLOCK_SIZE);
+            0, 0, BLOCK_SIZE, BLOCK_SIZE);
+
+    /*おまけ
+    * スコア用変数distanceの宣言
+    * staticにすることでgameviewとunderviewを切り替える時に
+    * 初期化されないようにする
+    */
+    public static int distance = 0;
+    /*
+    * おまけ終わり
+    */
 
     public interface Callback {
 
@@ -59,7 +69,6 @@ public class Droid {
         paint.setColor(Color.BLACK);
 
         canvas.drawBitmap(bitmap, src, drawRect, paint);
-      //  canvas.drawRect(rect,paint);
     }
 
     public void jump(float time) {
@@ -73,6 +82,14 @@ public class Droid {
         int distanceFromGround = callback.getDistanceFromGround(this);
         if (acceleration < 0 && acceleration < -distanceFromGround) {
             acceleration = -distanceFromGround;
+
+            /*おまけ
+            * 移動した距離（スコア）を１ずつ追加
+            */
+            distance += 1;
+            /*
+            * おまけ終わり
+            */
         }
 
         rect.offset(0, -Math.round(acceleration));

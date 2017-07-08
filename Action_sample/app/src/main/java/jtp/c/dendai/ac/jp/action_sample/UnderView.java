@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Random;
 
 
-
-
 public class UnderView extends SurfaceView implements Droid.Callback,
         SurfaceHolder.Callback {
 
@@ -36,7 +34,6 @@ public class UnderView extends SurfaceView implements Droid.Callback,
     private static final Paint PAINT_POWER_GAUGE = new Paint();
 
 
-
     static {
         PAINT_POWER_GAUGE.setColor(Color.RED);
     }
@@ -52,10 +49,17 @@ public class UnderView extends SurfaceView implements Droid.Callback,
 
     private final Random rand = new Random();
 
+    private GameActivity gameActivity;
+
+    private Paint paint = new Paint();
+
+    public int getScore() {
+        return droid.distance;
+    }
+
     public interface Callback {
         public void onGameOver2();
     }
-
 
 
     private Callback callback;
@@ -68,27 +72,28 @@ public class UnderView extends SurfaceView implements Droid.Callback,
 
     private boolean isGameOver;
 
-    public UnderView(Context context) {
+    public UnderView(Context context, GameActivity gameActivity) {
         super(context);
 
         handler = new Handler();
 
         getHolder().addCallback(this);
+
+        this.gameActivity = gameActivity;
     }
 
-    public void drawBG(Canvas canvas,Bitmap bm){
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
+    public void drawBG(Canvas canvas, Bitmap bm) {
+        //int width = canvas.getWidth();
+        //int height = canvas.getHeight();
         boolean u = true;
 
-        Paint paint = new Paint();
+        //Paint paint = new Paint();
 
         canvas.drawColor(Color.WHITE);
         //  Canvas canvas1 = holder.lockCanvas();
 
         canvas.drawBitmap(bm, 0, 0, paint);
-        u=false;
-
+        u = false;
 
 
     }
@@ -147,6 +152,12 @@ public class UnderView extends SurfaceView implements Droid.Callback,
         droid.move();
 
         droid.draw(canvas);
+
+        paint.setColor(Color.WHITE);
+        //paint.setTextAlign(Paint.Align.RIGHT);
+        String sc = "  " + String.valueOf(droid.distance) + " m";
+        paint.setTextSize(100);
+        canvas.drawText(sc, 0, paint.getTextSize(), paint);
     }
 
     @Override
@@ -184,7 +195,14 @@ public class UnderView extends SurfaceView implements Droid.Callback,
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                touchDownStartTime = System.currentTimeMillis();
+                //ゲームオーバー状態ならクリックすると、タイトル画面に遷移するToTitleメソッドを呼ぶ
+                if (gameActivity.getIsDead()) {
+                    gameActivity.ToTitle();
+                }
+                //ゲームオーバー状態でないならクリックすると、画面上にパワーゲージを表示
+                else {
+                    touchDownStartTime = System.currentTimeMillis();
+                }
                 return true;
             case MotionEvent.ACTION_UP:
                 jumpDroid();
@@ -213,8 +231,6 @@ public class UnderView extends SurfaceView implements Droid.Callback,
             return;
         }
 
-
-
         isGameOver = true;
 
         droid.shutdown();
@@ -227,22 +243,31 @@ public class UnderView extends SurfaceView implements Droid.Callback,
         });
     }
 
+    /*おまけ
+    * ゲーム終了後、スコアをリセットするResetScoreメソッド
+    */
+    public void ResetScore() {
+        droid.distance = 0;
+    }
+    /*
+    * おまけ終わり
+    */
+
     private class DrawThread extends Thread {
         boolean isFinished;
 
         @Override
         public void run() {
             SurfaceHolder holder = getHolder();
-
-
+            
             Bitmap robot;
 
-            robot = BitmapFactory.decodeResource(getResources(), R.drawable.ocean);
+            robot = BitmapFactory.decodeResource(getResources(), R.drawable.ocean2);
 
             while (!isFinished) {
                 Canvas canvas = holder.lockCanvas();
                 if (canvas != null) {
-                    drawBG(canvas,robot);
+                    drawBG(canvas, robot);
 
                     drawGame(canvas);
                     holder.unlockCanvasAndPost(canvas);
