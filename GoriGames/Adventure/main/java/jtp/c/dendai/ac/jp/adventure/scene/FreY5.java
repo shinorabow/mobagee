@@ -4,6 +4,7 @@ import jtp.c.dendai.ac.jp.adventure.R;
 public class FreY5 extends AbstractScene {
     @Override
     public GameState next(int no) {
+        Setsta(7);
         return null;
     }
     @Override

@@ -1,6 +1,8 @@
 package jtp.c.dendai.ac.jp.adventure.scene;
 import jtp.c.dendai.ac.jp.adventure.R;
 public class Second extends AbstractScene {
+    private int a = 0;
+
     @Override
     public GameState next(int no) {
         switch(no){
@@ -25,6 +27,7 @@ public class Second extends AbstractScene {
     public int getQuestionId() {
         return R.array.question2;
     }
+
     @Override
     public int getDateId() {
         return R.string.date1;

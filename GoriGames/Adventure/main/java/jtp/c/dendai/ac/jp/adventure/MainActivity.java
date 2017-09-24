@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.MyTheme);
+      //  setTheme(R.style.MyTheme);
         AbstractScene.setActivity(this);
         AbstractScene.setHandler(new Handler());
         setContentView(R.layout.title);

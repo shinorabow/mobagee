@@ -6,6 +6,8 @@
     <string name="startb">はじめから</string>
     <string name="continueb">つづきから</string>
     <string name="question_title">CHOOSE</string>
+    <string name="question_1">何をあげようかな？</string>
+    <string name="question_2">どうしよう...？</string>
     <string name="exit">終了</string>
     <string name="logOn">LOG</string>
     <string name="LogOff">LOGx</string>
@@ -27,17 +29,22 @@
     <string name="dateending">x年9月2日</string>
 
     <string-array name="message1">
-        <item>岡部:僕はデン大工学部アイシー科2年の岡部健太郎だ。いよいよ後期を迎えた。</item>
-        <item>岡部:木曜日一時間目のデータ構造とアルゴリズムという科目を受けるのだが、どうも他の講義と様子がちがう</item>
+        <item>ヤス：明日からのスケジュールね、これ</item>
+        <item>主人公：はい</item>
     </string-array>
 
     <string-array name="message2">
-        <item>岡部:講義の印象だけど、結構難しいと思った</item>
+        <item>主人公:どの動物にしよう……？</item>
     </string-array>
+
+    <string-array name="message22">
+        <item>主人公:あれ？イルカなんていたっけ？</item>
+    </string-array>
+
     <string-array name="question2">
-        <item>まじめに勉強する</item>
-        <item>とりあえず友達ができるか様子を見る</item>
-        <item>単位放棄する</item>
+        <item>ゴリラのドンキーくん</item>
+        <item>ライオンのタカシくん</item>
+        <item>ゾウのワタルくん</item>
     </string-array>
 
     <string-array name="message_ben1">

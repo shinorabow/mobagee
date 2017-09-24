@@ -32,6 +32,7 @@ public abstract class AbstractScene implements Scene {
     private static SoundPool pool;
     private static int sound;
     private static int sound2;
+    private static int aaa = 0;
 
     private int index;
     private Handler handler;
@@ -39,6 +40,27 @@ public abstract class AbstractScene implements Scene {
     protected int size(){
         return getMessage().length;
     };
+
+
+    public int Getsta(){
+        SharedPreferences prefer = activity.getPreferences(activity.MODE_PRIVATE);
+        int q = prefer.getInt("IRUKA",1);
+
+        return q;
+    }
+
+    public void Setsta(int r){
+        SharedPreferences prefer2 = activity.getPreferences(activity.MODE_PRIVATE);
+        int q = prefer2.getInt("IRUKA",1);
+       // SharedPreferences prefer2 = activity.getPreferences(activity.MODE_PRIVATE);
+        Editor editor2 = prefer2.edit();
+      //  String className = new Object(){}.getClass().getEnclosingClass().getName();
+        int m = q % r == 0 ? q : q*r;
+        editor2.putInt("IRUKA",m);
+        //editor2.putString("qsave",getSceneName() + "<>" + index + "<>" + log);
+        editor2.commit();
+
+    }
 
 
 
@@ -62,9 +84,9 @@ public abstract class AbstractScene implements Scene {
         else nextPage();
     }
     private void askQuestion() {
-        Builder builder = new Builder(activity);
+        Builder builder = new Builder(activity,R.style.MyAlertDialogStyle);
         builder.setCancelable(false);
-        builder.setTitle(activity.getString(R.string.question_title));
+        builder.setTitle(activity.getString(R.string.question_1));
         builder.setItems(getQuestion(),new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog,int witch){
@@ -78,6 +100,43 @@ public abstract class AbstractScene implements Scene {
         //MyDialog dialog = new MyDialog();
 
     }
+
+    private void askQuestion2() {
+        Builder builder = new Builder(activity,R.style.MyAlertDialogStyle);
+        builder.setCancelable(false);
+        builder.setTitle(activity.getString(R.string.question_2));
+        builder.setItems(getQuestion(),new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog,int witch){
+                log += "\n\t⇒ " + getQuestion()[witch] + "\n";
+                handler.step(next(witch).getScene());
+                mp.stop();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+        //MyDialog dialog = new MyDialog();
+
+    }
+
+    private void askQuestion3() {
+        Builder builder = new Builder(activity,R.style.MyAlertDialogStyle);
+        builder.setCancelable(false);
+        builder.setTitle(activity.getString(R.string.question_2));
+        builder.setItems(getQuestion(),new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog,int witch){
+                log += "\n\t⇒ " + getQuestion()[witch] + "\n";
+                handler.step(next(witch).getScene());
+                mp.stop();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+        //MyDialog dialog = new MyDialog();
+
+    }
+
 
     @Override
     public void start(Handler h,int _index){
@@ -176,11 +235,22 @@ public abstract class AbstractScene implements Scene {
             writeMessage();
         }
         else {
-            if (getQuestionId() != 0) {
+            /* if (getQuestionId() != 0) {
                 ImageView imageView = (ImageView) activity.findViewById(R.id.imageView1);
                 imageView.setOnClickListener(null);
                 askQuestion();
-            } else {
+            } */
+             if (getQuestionId() == R.array.question2) {
+                ImageView imageView = (ImageView) activity.findViewById(R.id.imageView1);
+                imageView.setOnClickListener(null);
+                askQuestion2();
+            }
+            else if (getQuestionId() != 0) {
+                 ImageView imageView = (ImageView) activity.findViewById(R.id.imageView1);
+                 imageView.setOnClickListener(null);
+                 askQuestion();
+             }
+             else {
                 GameState n = next(0);
                 Scene scene = n == null ? null : n.getScene();
                 handler.step(scene);

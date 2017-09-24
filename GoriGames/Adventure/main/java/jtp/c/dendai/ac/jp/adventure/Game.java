@@ -1,8 +1,4 @@
 package jtp.c.dendai.ac.jp.adventure;
-import jtp.c.dendai.ac.jp.adventure.scene.AbstractScene;
-import jtp.c.dendai.ac.jp.adventure.scene.GameState;
-import jtp.c.dendai.ac.jp.adventure.scene.Scene;
-
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -10,6 +6,10 @@ import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import jtp.c.dendai.ac.jp.adventure.scene.AbstractScene;
+import jtp.c.dendai.ac.jp.adventure.scene.GameState;
+import jtp.c.dendai.ac.jp.adventure.scene.Scene;
 
 public class Game implements Handler {
     private AppCompatActivity activity;
@@ -72,6 +72,8 @@ public class Game implements Handler {
                             case "First": scene = GameState.first == null ? null : GameState.first.getScene();
                                 break;
                             case "Second": scene = GameState.first == null ? null : GameState.second.getScene();
+                                break;
+                            case "Second2": scene = GameState.first == null ? null : GameState.second2.getScene();
                                 break;
 
                             case "Ben1": scene = GameState.first == null ? null : GameState.ben1.getScene();

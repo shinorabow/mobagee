@@ -2,6 +2,7 @@ package jtp.c.dendai.ac.jp.adventure.scene;
 public enum GameState {
     first(new First()),
     second(new Second()),
+    second2(new Second2()),
 
     ben1(new Ben1()),
     ben2(new Ben2()),

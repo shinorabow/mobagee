@@ -26,5 +26,12 @@
         <item name="android:bottomMedium">@color/basic_blue3</item>
     </style>
 
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@android:color/holo_blue_dark</item>
+        <item name="android:background">@color/basic_blue2</item>
+        <item name="android:textColorPrimary">@color/basic_blue1</item>
+        <item name="android:textColorAlertDialogListItem">@color/basic_blue5</item>
+    </style>
+
 
 </resources>

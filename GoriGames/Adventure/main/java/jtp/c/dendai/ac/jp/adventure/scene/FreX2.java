@@ -4,6 +4,8 @@ import jtp.c.dendai.ac.jp.adventure.R;
 public class FreX2 extends AbstractScene {
     @Override
     public GameState next(int no) {
+        Setsta(5);
+
         return null;
     }
     @Override

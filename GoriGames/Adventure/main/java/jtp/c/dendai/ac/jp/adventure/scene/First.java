@@ -1,6 +1,7 @@
 package jtp.c.dendai.ac.jp.adventure.scene;
 import jtp.c.dendai.ac.jp.adventure.R;
 public class First extends AbstractScene {
+    private boolean u = true;
     @Override
     public int getImageId() {
         return R.drawable.first;
@@ -15,6 +16,17 @@ public class First extends AbstractScene {
     }
     @Override
     public GameState next(int no) {
+        int a = Getsta();
+        switch (a){
+            case 1:
+            return GameState.second;
+            case 5:
+            return GameState.second;
+            case 7:
+                return GameState.second;
+            case 455:
+                return GameState.second2;//5,7,13
+        }
         return GameState.second;
     }
     @Override
